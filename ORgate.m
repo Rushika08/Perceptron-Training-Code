@@ -51,24 +51,33 @@ while ~converged
     figure(iteration);
     hold on;
     grid on;
-    plot(TestSet(Group0, 2), TestSet(Group0, 3), 'ro', 'MarkerFaceColor', 'r');
-    plot(TestSet(Group1, 2), TestSet(Group1, 3), 'go', 'MarkerFaceColor', 'g');
 
-    % Also plot the training inputs
+    % Plot regions and store handles
+    h0 = plot(TestSet(Group0, 2), TestSet(Group0, 3), 'ro', 'MarkerFaceColor', 'r');
+    h1 = plot(TestSet(Group1, 2), TestSet(Group1, 3), 'go', 'MarkerFaceColor', 'g');
+
+    % Initialize plot handles for training points
+    h2 = []; h3 = [];
+
     for i = 1:4
         if T(i) == 0
-            plot(X(i,2), X(i,3), 'rx', 'MarkerSize', 10, 'LineWidth', 2);
+            h2 = plot(X(i,2), X(i,3), 'rx', 'MarkerSize', 10, 'LineWidth', 2);
         else
-            plot(X(i,2), X(i,3), 'gx', 'MarkerSize', 10, 'LineWidth', 2);
+            h3 = plot(X(i,2), X(i,3), 'gx', 'MarkerSize', 10, 'LineWidth', 2);
         end
     end
 
+    % Title and axis labels
     title(['Perceptron OR Gate - Iteration ', num2str(iteration)]);
     xlabel('x1');
     ylabel('x2');
     axis([0 1 0 1]);
-    legend('Class 0 Region','Class 1 Region','Class 0 Point','Class 1 Point');
-    hold off;
 
+    % Use plot handles in the legend
+    legend([h0, h1, h2, h3], ...
+           {'Class 0 Region', 'Class 1 Region', 'Class 0 Point', 'Class 1 Point'}, ...
+           'Location', 'northeastoutside');
+
+    hold off;
     iteration = iteration + 1;
 end
